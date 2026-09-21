@@ -3,6 +3,6 @@ The package simulates the female part of a reindeer herd. The reindeer are indiv
 
 Install the package using the following R commands on your computer:
 
-library(devtools)
-devtools::install_github("larsronn/AUCSimHerd-Package")
-library(AUCSimHerd)
+library(devtools)  
+devtools::install_github("larsronn/AUCSimHerd-Package")  
+library(AUCSimHerd)  

@@ -1,0 +1,10 @@
+Package: AUCSimHerd
+Title: A stochastic reindeer herd simulator
+Version: 0.0.0.9000
+Authors@R: 
+    person("Lars", "Ronnegard", , "lars.ronnegard@slu.se", role = c("aut", "cre"))
+Description: The package simulates the female part of a reindeer herd. The reindeer are individually simulated and both the calving probability and calf weight is allowed to be dependent on the mother's body weight. Selection on calf weights is assumed.
+License: `use_gpl3_license()` 
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3

@@ -78,6 +78,6 @@ The parameter b_calving is used in the calving() function. The relationship is g
 The parameter sd.repeatability is used in the aging() function
 }
 \examples{
-Herd1 <- SimulateHerd() 
+Herd1 <- SimulateHerd()
 
 }

@@ -1,5 +1,5 @@
 #' Population functions
-#' 
+#'
 initiate_herd <- function(age_structure = rep(0:10, each=50)) {
   vajor = NULL
   for (i in 1:length(age_structure)) {
@@ -7,23 +7,25 @@ initiate_herd <- function(age_structure = rep(0:10, each=50)) {
   }
   return(vajor)
 }
-create_calves <- function(n.calves.born, n, mother_weights=NULL ) {
+create_calves <- function(n.calves.born, n, mother_weights=NULL, year ) {
   calves = NULL
   if (is.null(mother_weights)) {
     for (i in 1:n.calves.born) {
-      calves[[i]] = create_vaja(age=0, weight=sim_weight(0, mean.weight), id=n+i)
+      calves[[i]] = create_vaja(age=0, weight=sim_weight(0, mean.weight),
+                                id=n+i, year=year)
     }
   } else {
     for (i in 1:n.calves.born) {
       calf.weight = mean.weight
       calf.weight[1] = mean.weight[1]+ b_weight*(mother_weights[i]-standard_vaj_weight)
-      calves[[i]] = create_vaja(age=0, weight=sim_weight(0, calf.weight), id=n+i)
+      calves[[i]] = create_vaja(age=0, weight=sim_weight(0, calf.weight),
+                                id=n+i, year=year)
     }
   }
-  
+
   return(calves)
 }
-calving <- function(vajor, calving.rate, weight.dependent = FALSE) {
+calving <- function(vajor, calving.rate, year, weight.dependent = FALSE) {
   n = length(vajor)
   n.calves.born = 0
   for (i in 1:n) {
@@ -37,7 +39,7 @@ calving <- function(vajor, calving.rate, weight.dependent = FALSE) {
         c.rate = exp(a+b*(vajor[[i]]$weight-standard_vaj_weight))/(1+exp(a+b*(vajor[[i]]$weight-standard_vaj_weight)))
         calved = rbinom(1, 1, c.rate)
       }
-      
+
       if (calved == 1) {
         vajor[[i]]$wcalf = TRUE
         n.calves.born = n.calves.born + 1
@@ -45,12 +47,12 @@ calving <- function(vajor, calving.rate, weight.dependent = FALSE) {
         vajor[[i]]$wcalf = FALSE
       }
     }
-    
+
   }
   mothers=vajor[get_with_calf(vajor) & get_living(vajor)]
   mother_weights = get_weights(mothers)
   cat("The average weight of mothers is:",round(mean(mother_weights),1), "kg \n")
-  new.calves  = create_calves(n.calves.born, n, mother_weights)
+  new.calves  = create_calves(n.calves.born, n, mother_weights, year)
   return( c(vajor, new.calves) )
 }
 
@@ -77,7 +79,7 @@ slaughter_calves <- function(vajor, slaughter, weight.dependent = FALSE) {
         vajor[[i]]$alive <- vajor[[i]]$weight >=threshold
       }
       vajor[[i]]$slaughtered <- !vajor[[i]]$alive
-      
+
     }
   }
   return(vajor)

@@ -20,9 +20,10 @@ SimulateHerd(
   b_calving = 0.01,
   sd.repeatability = 2,
   weight.dependent_calving_probability = TRUE,
-  weight.dependent_calf_sluaghter = TRUE,
+  weight.dependent_calf_slaughter = TRUE,
   n_years = 50,
-  plot_output = FALSE
+  plot_output = FALSE,
+  init.agestructure = rep(0:10, times = c(61, 51, 48, 46, 44, 41, 39, 37, 36, 34, 32))
 )
 }
 \arguments{
@@ -56,11 +57,13 @@ SimulateHerd(
 
 \item{weight.dependent_calving_probability}{Specifies if the reproduction and calf weight should depend on the mother's weight}
 
-\item{weight.dependent_calf_sluaghter}{Specifies if selection on calf weights is applied or not}
+\item{weight.dependent_calf_slaughter}{Specifies if selection on calf weights is applied or not}
 
 \item{n_years}{The number of years to simulate. Default is 50.}
 
 \item{plot_output}{Specifies whether results should be plotted every year}
+
+\item{init.agestructure}{The initial number of females per age class}
 }
 \value{
 A list consisting of 7 values for each individual: age, weight, id, alive, year, wcalf, slaughtered.

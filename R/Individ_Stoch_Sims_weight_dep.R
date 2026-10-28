@@ -1,6 +1,7 @@
 #' Function to simulate a reindeer herd
 #'
 #' This function simulates the female part of a herd for 50 years
+#' @param init.agestructure The initial number of females per age class
 #' @param calving.rate The proportion of females calving per age class
 #' @param winter.survival The probability of winter survival for non-calf females per age class
 #' @param winter.survival_calves The probability of winter survival for calves
@@ -16,7 +17,7 @@
 #' @param b_calving Regression parameter relating a female's probability of calving to her body weight
 #' @param sd.repeatability The amount of noise added to the body weight each year
 #' @param weight.dependent_calving_probability Specifies if the reproduction and calf weight should depend on the mother's weight
-#' @param weight.dependent_calf_sluaghter Specifies if selection on calf weights is applied or not
+#' @param weight.dependent_calf_slaughter Specifies if selection on calf weights is applied or not
 #' @param n_years The number of years to simulate. Default is 50.
 #' @param plot_output Specifies whether results should be plotted every year
 #' @returns A list consisting of 7 values for each individual: age, weight, id, alive, year, wcalf, slaughtered.
@@ -50,12 +51,13 @@ SimulateHerd <- function(
   b_calving = 0.01,
   sd.repeatability = 2,
   weight.dependent_calving_probability = TRUE,
-  weight.dependent_calf_sluaghter = TRUE,
+  weight.dependent_calf_slaughter = TRUE,
   n_years = 50,
-  plot_output = FALSE
+  plot_output = FALSE,
+  init.agestructure = rep(0:10, times=c(61, 51, 48, 46, 44, 41, 39, 37, 36, 34, 32))
 ) {
   make_variables_global(as.list(environment())[1:14])
-  vajor = initiate_herd()
+  vajor = initiate_herd(init.agestructure)
   for (cohort in 1:n_years) {
     #Matrices as defined in Petersson & Danell (1992)
     #P1 Winter survival
@@ -87,7 +89,7 @@ SimulateHerd <- function(
     #P6 slaughter
     vajor=slaughter_adult(vajor, slaughter.adults, weight.dependent = FALSE)
     vajor=slaughter_calves(vajor, slaughter.calves,
-                           weight.dependent = weight.dependent_calf_sluaghter)
+                           weight.dependent = weight.dependent_calf_slaughter)
 
 
     #plot(get_ages(vajor), get_weights(vajor))
